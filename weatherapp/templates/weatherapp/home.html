@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title%}Home{% endblock %}
+
+  
+{%block body%}
+
+
+{% if msg%}
+
+{{msg}}
+
+{% endif %}
+{% if flag == 0 %}
+<br>
+<br>
+<form method='POST'  >
+	{% csrf_token %}
+	{{ Cities_form.as_p }}
+    <button class="btn btn-success" type='submit'>Search</button>
+</form>
+{% endif %}
+{% if flag == 1  %}
+<a href  = "{% url 'home' %}" ><strong>Search Another City</strong></a>
+
+<table class = "table table-striped">
+	<tr>
+		<td><strong>City Name</strong></td>
+		<td>{{raw_data.name}}</td>
+	</tr>
+	<tr>
+		<td><strong>Temperature</strong></td>
+		<td> {{raw_data.main.temp}} &#8451;
+		<figure class="image is-50x50">
+        <img src="http://openweathermap.org/img/w/{{raw_data.weather.0.icon}}.png" alt="Image">
+        </figure>
+        {{raw_data.weather.0.description}}
+        </td>
+	</tr>
+	
+	<tr>
+		<td><strong>Pressure</strong></td>
+		<td>{{ raw_data.main.pressure}}</td>
+	</tr>
+	<tr>
+		<td><strong>Humidity</strong></td>
+		<td>{{raw_data.main.humidity}}  &#37;</td>
+	</tr>
+	<tr>
+		<td><strong>Minimum Temperature</strong></td>
+		<td>{{raw_data.main.temp_min}} &#8451;</td>
+	</tr>
+	<tr>
+		<td><strong>Maximum Temperature</strong></td>
+		<td>{{raw_data.main.temp_max}} &#8451;</td>
+	</tr>
+	<tr>
+		<td><strong>Wind Speed</strong></td>
+		<td>{{raw_data.wind.speed}}</td>
+	</tr>
+	<tr>
+		<td><strong>Country</strong></td>
+		<td>{{raw_data.sys.country}}</td>
+	</tr>
+</table>
+ 
+{% endif %}
+<h3>Recently Searches..</h3>
+{% for city in cities %}
+<div>
+	{{city.City_name}}
+	
+</div>
+ <br>
+{% endfor %}
+
+{% endblock %}
